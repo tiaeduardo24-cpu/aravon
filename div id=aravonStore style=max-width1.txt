@@ -1,0 +1,38 @@
+<div id="aravonStore" style="max-width:1200px;margin:0 auto;padding:16px;"></div>
+<script>
+(function(){
+  const container = document.getElementById('aravonStore');
+  container.innerHTML = `
+    <h2 style="text-align:center;color:#ff2d55;">Aravon.com Store</h2>
+    <div id="storeGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;"></div>
+  `;
+
+  // Load products from localStorage
+  let products = JSON.parse(localStorage.getItem('products') || '[]');
+  const grid = document.getElementById('storeGrid');
+
+  if(products.length === 0){
+    grid.innerHTML = "<p style='text-align:center'>No products available yet.</p>";
+  }
+
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.style.background = '#fff';
+    card.style.padding = '16px';
+    card.style.borderRadius = '8px';
+    card.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+    
+    const imgTag = p.images && p.images.length > 0 ? `<img src="${p.images[0]}" style="width:100%;border-radius:6px;margin-bottom:8px;"/>` : '';
+    
+    card.innerHTML = `
+      ${imgTag}
+      <h3>${p.name}</h3>
+      <p>${p.desc || ''}</p>
+      <p>Price: $${p.price}</p>
+      <p>Stock: ${p.stock}</p>
+      <a href="#" style="display:inline-block;padding:8px 16px;background:#ff2d55;color:#fff;text-decoration:none;border-radius:6px;margin-top:8px;">Add to Cart</a>
+    `;
+    grid.appendChild(card);
+  });
+})();
+</script>
